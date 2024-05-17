@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Navigation from "./Components/Navigation";
+import Products from "./pages/Products";
+import Carts from "./pages/Carts";
+import ProductsDetails from "./pages/ProductsDetails";
+import { CreateContext } from "./CreateContext";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function App() {
+  const [cart, setCart] = useState({});
+
+  useEffect(() => {
+    const cart = window.localStorage.getItem("cart");
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<Carts />} />
+          <Route path="/products" exact element={<Products />} />
+          <Route path="/products/:id" element={<ProductsDetails />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
